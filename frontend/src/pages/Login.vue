@@ -52,7 +52,7 @@
           </div>
 
           <div class="pt-2">
-            <button type="submit" :disabled="authStore.loading" class="w-full btn-primary py-3 text-base shadow-primary-500/30">
+            <button type="submit" :disabled="authStore.loading" class="relative w-full btn-primary py-3 text-base shadow-primary-500/30">
               <span v-if="authStore.loading" class="absolute left-0 inset-y-0 flex items-center pl-4">
                 <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
