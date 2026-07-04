@@ -1,0 +1,138 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@layer base {
+  body {
+    @apply antialiased;
+  }
+}
+
+@layer components {
+  /* ───────── Buttons ───────── */
+  .btn {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-sm font-semibold
+      focus:outline-none focus:ring-2 focus:ring-offset-2
+      transition-all duration-300 transform
+      hover:-translate-y-0.5 hover:shadow-lg active:scale-[0.97];
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-sm font-semibold
+      focus:outline-none focus:ring-2 focus:ring-offset-2
+      transition-all duration-300 transform
+      hover:-translate-y-0.5 hover:shadow-lg active:scale-[0.97]
+      text-white
+      bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
+      shadow-lg shadow-indigo-500/25
+      hover:shadow-xl hover:shadow-indigo-500/30
+      focus:ring-indigo-400;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-sm font-semibold
+      focus:outline-none focus:ring-2 focus:ring-offset-2
+      transition-all duration-300 transform
+      hover:-translate-y-0.5 hover:shadow-lg active:scale-[0.97]
+      text-slate-700 bg-white/80 backdrop-blur-sm
+      border border-slate-200 hover:bg-white
+      focus:ring-indigo-400
+      dark:text-slate-200 dark:bg-slate-800/80 dark:border-slate-600 dark:hover:bg-slate-700;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-sm font-semibold
+      focus:outline-none focus:ring-2 focus:ring-offset-2
+      transition-all duration-300 transform
+      hover:-translate-y-0.5 hover:shadow-lg active:scale-[0.97]
+      text-white
+      bg-gradient-to-r from-red-500 to-rose-600
+      shadow-lg shadow-red-500/25
+      hover:shadow-xl hover:shadow-red-500/30
+      focus:ring-red-400;
+  }
+
+  /* ───────── Glass Surfaces ───────── */
+  .glass-panel {
+    @apply bg-white/70 dark:bg-slate-900/70
+      backdrop-blur-2xl
+      border border-white/30 dark:border-slate-700/40
+      shadow-2xl shadow-slate-900/5 dark:shadow-black/20
+      rounded-2xl;
+  }
+
+  .glass-input {
+    @apply block w-full rounded-xl
+      border border-slate-200/80 dark:border-slate-700
+      bg-white/60 dark:bg-slate-800/60
+      backdrop-blur-md
+      px-4 py-3 text-sm
+      text-slate-900 dark:text-white
+      placeholder:text-slate-400 dark:placeholder:text-slate-500
+      shadow-sm
+      transition-all duration-200
+      focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 focus:bg-white dark:focus:bg-slate-800
+      hover:border-slate-300 dark:hover:border-slate-600;
+  }
+
+  /* ───────── Legacy input-field (kept for backward compat) ───────── */
+  .input-field {
+    @apply block w-full rounded-xl
+      border border-slate-200/80 dark:border-slate-700
+      bg-white/60 dark:bg-slate-800/60
+      backdrop-blur-md
+      px-4 py-3 text-sm
+      text-slate-900 dark:text-white
+      placeholder:text-slate-400 dark:placeholder:text-slate-500
+      shadow-sm
+      transition-all duration-200
+      focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/30 focus:bg-white dark:focus:bg-slate-800
+      hover:border-slate-300 dark:hover:border-slate-600;
+  }
+
+  /* ───────── Cards ───────── */
+  .card {
+    @apply bg-white/80 dark:bg-slate-800/80
+      backdrop-blur-lg
+      border border-slate-200/60 dark:border-slate-700/50
+      rounded-2xl
+      shadow-lg shadow-slate-900/5 dark:shadow-black/10
+      transition-all duration-300
+      hover:shadow-xl hover:shadow-slate-900/10 dark:hover:shadow-black/20;
+  }
+}
+
+/* ───────── Custom animation delays ───────── */
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* ───────── Vue Toastification Overrides ───────── */
+.Vue-Toastification__toast {
+  @apply !bg-white/80 dark:!bg-slate-900/80 !backdrop-blur-xl !border !border-white/40 dark:!border-slate-700/50 !shadow-xl !rounded-2xl !p-4;
+  font-family: inherit !important;
+  color: inherit !important;
+  min-height: auto !important;
+}
+
+.Vue-Toastification__toast--success {
+  @apply !bg-emerald-50/90 dark:!bg-emerald-900/40 !border-emerald-200/60 dark:!border-emerald-800/50 !text-emerald-900 dark:!text-emerald-100;
+}
+
+.Vue-Toastification__toast--error {
+  @apply !bg-red-50/90 dark:!bg-red-900/40 !border-red-200/60 dark:!border-red-800/50 !text-red-900 dark:!text-red-100;
+}
+
+.Vue-Toastification__toast-body {
+  @apply !font-medium !text-sm !text-inherit;
+}
+
+.Vue-Toastification__close-button {
+  @apply !text-current !opacity-60 hover:!opacity-100 !transition-opacity;
+}
+
+.Vue-Toastification__progress-bar {
+  @apply !bg-current !opacity-20;
+}
