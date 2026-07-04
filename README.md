@@ -2,12 +2,6 @@
 
 A production-ready Full Stack Notes Management System built with Vue 3, TypeScript, Tailwind CSS, Pinia, and ASP.NET Core 8 Web API.
 
-## 🎬 Live Demo
-
-<p align="center">
-  <img src="docs/demo.webp" alt="Notes App Live Demo" width="800" />
-</p>
-
 ## 🚀 Features
 
 - **Authentication & Security**
