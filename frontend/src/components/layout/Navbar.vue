@@ -46,6 +46,7 @@
 
 <script setup lang="ts">
 import { useAuthStore } from '../../stores/authStore';
+import { useNotesStore } from '../../stores/notesStore';
 import { useThemeStore } from '../../stores/themeStore';
 import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toastification';
@@ -62,6 +63,7 @@ const toggleSidebar = () => {
 
 const handleLogout = async () => {
   await authStore.logout();
+  useNotesStore().$reset();
   toast.success('Logged out successfully');
   router.push('/login');
 };

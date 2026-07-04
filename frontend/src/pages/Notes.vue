@@ -24,7 +24,6 @@
           <input 
             type="text" 
             v-model="searchInput" 
-            @keyup.enter="handleSearch"
             class="glass-input !pl-10 !py-2.5" 
             placeholder="Search notes by title or content..." 
           />
@@ -127,7 +126,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useNotesStore } from '../stores/notesStore';
 import { useToast } from 'vue-toastification';
 import { PlusIcon, MagnifyingGlassIcon, XMarkIcon, DocumentPlusIcon } from '@heroicons/vue/24/outline';
@@ -161,9 +160,13 @@ onMounted(() => {
 });
 
 // Search and Filter Handlers
-const handleSearch = () => {
-  notesStore.setSearch(searchInput.value);
-};
+let searchTimeout: ReturnType<typeof setTimeout>;
+watch(searchInput, (newVal) => {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() => {
+    notesStore.setSearch(newVal);
+  }, 300);
+});
 
 const clearSearch = () => {
   searchInput.value = '';
