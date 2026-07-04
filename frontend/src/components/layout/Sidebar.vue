@@ -41,7 +41,7 @@
 
       <!-- Bottom branding -->
       <div class="px-4 py-4 border-t border-slate-200/50 dark:border-slate-700/40">
-        <p class="text-xs text-slate-400 dark:text-slate-600 text-center">NotesApp &copy; 2024</p>
+        <p class="text-xs text-slate-400 dark:text-slate-600 text-center">NotesApp</p>
       </div>
     </div>
   </aside>

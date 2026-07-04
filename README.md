@@ -55,9 +55,11 @@ notes-app/
 ## 🛠 Prerequisites
 
 ### For Docker Setup (Recommended)
+
 - [Docker](https://www.docker.com/products/docker-desktop) and [Docker Compose](https://docs.docker.com/compose/install/)
 
 ### For Manual Setup
+
 - [Node.js](https://nodejs.org/) (v18+)
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) (Express/Developer)
@@ -79,7 +81,7 @@ notes-app/
 5. The application is now running at:
    - **Frontend:** [http://localhost:5173](http://localhost:5173)
    - **Backend API:** [http://localhost:8080/swagger](http://localhost:8080/swagger)
-6. *(Optional)* If you wish to seed data, you can execute the `database/003_SeedData.sql` script on the database container. This script creates an Admin (`admin@notesapp.com`) and User (`john@notesapp.com`) with the password `Password@123`.
+6. _(Optional)_ If you wish to seed data, you can execute the `database/003_SeedData.sql` script on the database container. This script creates an Admin (`admin@notesapp.com`) and User (`john@notesapp.com`) with the password `Password@123`.
 
 ---
 
@@ -158,4 +160,4 @@ This repository follows conventional commits:
 
 ---
 
-Built with ❤️ using ASP.NET Core & Vue 3.
+Built with using ASP.NET Core & Vue.
