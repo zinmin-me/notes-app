@@ -132,11 +132,7 @@ public static class ServiceCollectionExtensions
         {
             options.AddPolicy("AllowFrontend", builder =>
             {
-                var frontendUrls = configuration["FrontendUrl"] ?? "http://localhost:5173";
-                var origins = frontendUrls.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                                          .Select(url => url.Trim())
-                                          .ToArray();
-                builder.WithOrigins(origins)
+                builder.SetIsOriginAllowed(origin => true)
                        .AllowAnyMethod()
                        .AllowAnyHeader()
                        .AllowCredentials();
