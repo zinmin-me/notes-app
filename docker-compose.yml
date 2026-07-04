@@ -1,0 +1,50 @@
+
+services:
+  database:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Password@123"
+    ports:
+      - "1434:1433"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+
+  db-setup:
+    image: mcr.microsoft.com/mssql-tools
+    depends_on:
+      - database
+    volumes:
+      - ./database:/scripts
+    command: >
+      /bin/bash -c "
+      echo 'Waiting for database to start...' &&
+      sleep 20 &&
+      /opt/mssql-tools/bin/sqlcmd -S database -U sa -P 'Password@123' -i /scripts/001_CreateDatabase.sql &&
+      /opt/mssql-tools/bin/sqlcmd -S database -U sa -P 'Password@123' -i /scripts/002_CreateTables.sql &&
+      echo 'Database initialization completed.'"
+
+  api:
+    build:
+      context: ./backend/NotesApp
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Server=database;Database=NotesAppDb;User Id=sa;Password=Password@123;TrustServerCertificate=True;
+    depends_on:
+      - database
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+
+volumes:
+  sqlvolume:
