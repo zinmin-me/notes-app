@@ -35,6 +35,12 @@ const routes: RouteRecordRaw[] = [
     name: 'NoteDetail',
     component: () => import('../pages/NoteDetail.vue'),
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/admin/users',
+    name: 'AdminUsers',
+    component: () => import('../pages/Admin/UsersList.vue'),
+    meta: { requiresAuth: true, requiresAdmin: true }
   }
 ];
 
@@ -49,10 +55,13 @@ router.beforeEach((to, _from, next) => {
   const isAuthenticated = authStore.isAuthenticated;
 
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin);
   const guestOnly = to.matched.some(record => record.meta.guestOnly);
 
   if (requiresAuth && !isAuthenticated) {
     next({ name: 'Login' });
+  } else if (requiresAdmin && !authStore.isAdmin) {
+    next({ name: 'Dashboard' });
   } else if (guestOnly && isAuthenticated) {
     next({ name: 'Dashboard' });
   } else {

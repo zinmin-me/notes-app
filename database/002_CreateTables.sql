@@ -3,8 +3,8 @@
 -- Table Creation Script
 -- ============================================
 
-USE [NotesAppDb];
-GO
+-- USE [NotesAppDb];
+-- GO
 
 -- ============================================
 -- Users Table

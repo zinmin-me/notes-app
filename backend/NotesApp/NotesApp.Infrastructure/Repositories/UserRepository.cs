@@ -65,6 +65,16 @@ public class UserRepository : IUserRepository
     }
 
     /// <inheritdoc />
+    public async Task<IEnumerable<User>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        const string sql = "SELECT Id, Username, Email, PasswordHash, Role, CreatedAt FROM Users ORDER BY CreatedAt DESC";
+
+        using var connection = _context.CreateConnection();
+        return await connection.QueryAsync<User>(
+            new CommandDefinition(sql, cancellationToken: cancellationToken));
+    }
+
+    /// <inheritdoc />
     public async Task<bool> EmailExistsAsync(string email, CancellationToken cancellationToken = default)
     {
         const string sql = "SELECT COUNT(1) FROM Users WHERE Email = @Email";

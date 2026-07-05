@@ -31,6 +31,7 @@ public static class ServiceCollectionExtensions
         // Business Logic
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<INoteService, NoteService>();
+        services.AddScoped<IAdminService, AdminService>();
         
         // Infrastructure
         services.AddScoped<ITokenService, TokenService>();
