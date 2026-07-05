@@ -43,12 +43,24 @@
           <ul class="space-y-1">
             <li>
               <router-link 
+                to="/admin/dashboard" 
+                class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-white/80 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/60 transition-all duration-200 group"
+                active-class="!bg-gradient-to-r !from-indigo-500/10 !to-purple-500/10 !text-indigo-700 dark:!text-indigo-300 !border !border-indigo-200/50 dark:!border-indigo-800/30 shadow-sm"
+              >
+                <div class="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/30 transition-colors" :class="$route.path === '/admin/dashboard' ? '!bg-indigo-100 dark:!bg-indigo-900/40' : ''">
+                  <ChartBarIcon class="w-4 h-4 text-slate-500 group-hover:text-indigo-600 dark:text-slate-400 dark:group-hover:text-indigo-400 transition-colors" :class="$route.path === '/admin/dashboard' ? '!text-indigo-600 dark:!text-indigo-400' : ''" />
+                </div>
+                <span>Dashboard</span>
+              </router-link>
+            </li>
+            <li>
+              <router-link 
                 to="/admin/users" 
                 class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-white/80 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/60 transition-all duration-200 group"
                 active-class="!bg-gradient-to-r !from-indigo-500/10 !to-purple-500/10 !text-indigo-700 dark:!text-indigo-300 !border !border-indigo-200/50 dark:!border-indigo-800/30 shadow-sm"
               >
-                <div class="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/30 transition-colors" :class="$route.path.startsWith('/admin') ? '!bg-indigo-100 dark:!bg-indigo-900/40' : ''">
-                  <UsersIcon class="w-4 h-4 text-slate-500 group-hover:text-indigo-600 dark:text-slate-400 dark:group-hover:text-indigo-400 transition-colors" :class="$route.path.startsWith('/admin') ? '!text-indigo-600 dark:!text-indigo-400' : ''" />
+                <div class="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/30 transition-colors" :class="$route.path === '/admin/users' ? '!bg-indigo-100 dark:!bg-indigo-900/40' : ''">
+                  <UsersIcon class="w-4 h-4 text-slate-500 group-hover:text-indigo-600 dark:text-slate-400 dark:group-hover:text-indigo-400 transition-colors" :class="$route.path === '/admin/users' ? '!text-indigo-600 dark:!text-indigo-400' : ''" />
                 </div>
                 <span>Users</span>
               </router-link>
@@ -72,7 +84,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
-import { Squares2X2Icon, DocumentTextIcon, UsersIcon } from '@heroicons/vue/24/outline';
+import { Squares2X2Icon, DocumentTextIcon, UsersIcon, ChartBarIcon } from '@heroicons/vue/24/outline';
 import { useAuthStore } from '../../stores/authStore';
 
 const isOpen = ref(false);

@@ -9,14 +9,23 @@ export interface UserProfile {
   createdAt: string;
 }
 
+export interface AdminStats {
+  totalUsers: number;
+  totalNotes: number;
+  usersJoinedToday: number;
+  notesCreatedToday: number;
+}
+
 interface AdminState {
   users: UserProfile[];
+  stats: AdminStats | null;
   loading: boolean;
 }
 
 export const useAdminStore = defineStore('admin', {
   state: (): AdminState => ({
     users: [],
+    stats: null,
     loading: false
   }),
   actions: {
@@ -27,6 +36,18 @@ export const useAdminStore = defineStore('admin', {
         this.users = response.data;
       } catch (error) {
         console.error('Failed to fetch users', error);
+        throw error;
+      } finally {
+        this.loading = false;
+      }
+    },
+    async fetchStats() {
+      this.loading = true;
+      try {
+        const response = await api.get('/admin/stats');
+        this.stats = response.data;
+      } catch (error) {
+        console.error('Failed to fetch admin stats', error);
         throw error;
       } finally {
         this.loading = false;

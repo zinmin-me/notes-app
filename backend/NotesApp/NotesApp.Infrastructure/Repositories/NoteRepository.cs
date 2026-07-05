@@ -113,6 +113,24 @@ public class NoteRepository : INoteRepository
     }
 
     /// <inheritdoc />
+    public async Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default)
+    {
+        const string sql = "SELECT COUNT(1) FROM Notes";
+
+        using var connection = _context.CreateConnection();
+        return await connection.ExecuteScalarAsync<int>(new CommandDefinition(sql, cancellationToken: cancellationToken));
+    }
+
+    /// <inheritdoc />
+    public async Task<int> GetCountCreatedTodayAsync(CancellationToken cancellationToken = default)
+    {
+        const string sql = "SELECT COUNT(1) FROM Notes WHERE CAST(CreatedAt AS DATE) = CAST(GETUTCDATE() AS DATE)";
+
+        using var connection = _context.CreateConnection();
+        return await connection.ExecuteScalarAsync<int>(new CommandDefinition(sql, cancellationToken: cancellationToken));
+    }
+
+    /// <inheritdoc />
     public async Task<Note> CreateAsync(Note note, CancellationToken cancellationToken = default)
     {
         const string sql = @"

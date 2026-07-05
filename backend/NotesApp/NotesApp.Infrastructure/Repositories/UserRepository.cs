@@ -75,6 +75,26 @@ public class UserRepository : IUserRepository
     }
 
     /// <inheritdoc />
+    public async Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default)
+    {
+        const string sql = "SELECT COUNT(1) FROM Users";
+
+        using var connection = _context.CreateConnection();
+        return await connection.ExecuteScalarAsync<int>(new CommandDefinition(sql, cancellationToken: cancellationToken));
+    }
+
+    /// <inheritdoc />
+    public async Task<int> GetCountJoinedTodayAsync(CancellationToken cancellationToken = default)
+    {
+        // For SQL Server, GETDATE() is often used, but Dapper can pass the date parameter nicely.
+        // We'll use UTC dates to be safe.
+        const string sql = "SELECT COUNT(1) FROM Users WHERE CAST(CreatedAt AS DATE) = CAST(GETUTCDATE() AS DATE)";
+
+        using var connection = _context.CreateConnection();
+        return await connection.ExecuteScalarAsync<int>(new CommandDefinition(sql, cancellationToken: cancellationToken));
+    }
+
+    /// <inheritdoc />
     public async Task<bool> EmailExistsAsync(string email, CancellationToken cancellationToken = default)
     {
         const string sql = "SELECT COUNT(1) FROM Users WHERE Email = @Email";

@@ -12,6 +12,8 @@ public interface IUserRepository
     Task<User?> GetByUsernameAsync(string username, CancellationToken cancellationToken = default);
     Task<User> CreateAsync(User user, CancellationToken cancellationToken = default);
     Task<IEnumerable<User>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default);
+    Task<int> GetCountJoinedTodayAsync(CancellationToken cancellationToken = default);
     Task<bool> EmailExistsAsync(string email, CancellationToken cancellationToken = default);
     Task<bool> UsernameExistsAsync(string username, CancellationToken cancellationToken = default);
 }

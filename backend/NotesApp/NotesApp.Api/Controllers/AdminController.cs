@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NotesApp.Core.DTOs.Auth;
+using NotesApp.Core.DTOs.Admin;
 using NotesApp.Core.Interfaces.Services;
 
 namespace NotesApp.Api.Controllers;
@@ -30,5 +31,19 @@ public class AdminController : BaseApiController
     {
         var users = await _adminService.GetAllUsersAsync(cancellationToken);
         return Ok(users);
+    }
+
+    /// <summary>
+    /// Gets overall system statistics for the admin dashboard.
+    /// </summary>
+    /// <returns>Dashboard statistics.</returns>
+    [HttpGet("stats")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    public async Task<ActionResult<AdminDashboardStatsDto>> GetStats(CancellationToken cancellationToken)
+    {
+        var stats = await _adminService.GetDashboardStatsAsync(cancellationToken);
+        return Ok(stats);
     }
 }
