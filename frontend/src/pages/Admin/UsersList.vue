@@ -62,6 +62,18 @@
         </table>
       </div>
     </div>
+
+    <!-- Confirm Role Change Modal -->
+    <ConfirmModal 
+      :show="showConfirmModal"
+      title="Change User Role"
+      :message="`Are you sure you want to change ${pendingUser?.username}'s role to ${pendingRole}?`"
+      confirm-text="Change Role"
+      cancel-text="Cancel"
+      variant="info"
+      @confirm="confirmRoleChange"
+      @cancel="cancelRoleChange"
+    />
   </div>
 </template>
 
@@ -70,11 +82,17 @@ import { ref, onMounted } from 'vue';
 import { useAdminStore } from '../../stores/adminStore';
 import { useAuthStore } from '../../stores/authStore';
 import LoadingSpinner from '../../components/common/LoadingSpinner.vue';
+import ConfirmModal from '../../components/common/ConfirmModal.vue';
 import { format } from 'date-fns';
 
 const adminStore = useAdminStore();
 const authStore = useAuthStore();
 const isUpdating = ref<string | null>(null);
+
+const showConfirmModal = ref(false);
+const pendingUser = ref<any>(null);
+const pendingRole = ref<string>('');
+let selectEventTarget: HTMLSelectElement | null = null;
 
 onMounted(() => {
   adminStore.fetchUsers();
@@ -96,20 +114,41 @@ const handleRoleChange = async (user: any, event: Event) => {
     return;
   }
 
-  const confirmed = confirm(`Are you sure you want to change ${user.username}'s role to ${newRole}?`);
-  if (!confirmed) {
-    select.value = user.role; // reset
-    return;
-  }
+  // Open the modal instead of native confirm
+  pendingUser.value = user;
+  pendingRole.value = newRole;
+  selectEventTarget = select;
+  showConfirmModal.value = true;
+};
 
-  isUpdating.value = user.id;
+const confirmRoleChange = async () => {
+  if (!pendingUser.value || !pendingRole.value) return;
+  
+  showConfirmModal.value = false;
+  isUpdating.value = pendingUser.value.id;
+  
   try {
-    await adminStore.updateUserRole(user.id, newRole);
+    await adminStore.updateUserRole(pendingUser.value.id, pendingRole.value);
   } catch (error: any) {
     alert(error.response?.data?.message || 'Failed to update role');
-    select.value = user.role; // reset
+    if (selectEventTarget) {
+      selectEventTarget.value = pendingUser.value.role; // reset on error
+    }
   } finally {
     isUpdating.value = null;
+    pendingUser.value = null;
+    pendingRole.value = '';
+    selectEventTarget = null;
   }
+};
+
+const cancelRoleChange = () => {
+  showConfirmModal.value = false;
+  if (selectEventTarget && pendingUser.value) {
+    selectEventTarget.value = pendingUser.value.role; // reset
+  }
+  pendingUser.value = null;
+  pendingRole.value = '';
+  selectEventTarget = null;
 };
 </script>
