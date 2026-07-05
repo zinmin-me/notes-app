@@ -100,7 +100,11 @@ const handleLogin = async () => {
     const success = await authStore.login(form);
     if (success) {
       toast.success('Welcome back!');
-      router.push('/dashboard');
+      if (authStore.isAdmin) {
+        router.push('/admin/dashboard');
+      } else {
+        router.push('/dashboard');
+      }
     }
   } catch (error: any) {
     if (error.response?.data?.message) {

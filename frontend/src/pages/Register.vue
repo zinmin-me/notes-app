@@ -110,7 +110,11 @@ const handleRegister = async () => {
     const success = await authStore.register(form);
     if (success) {
       toast.success('Account created successfully!');
-      router.push('/dashboard');
+      if (authStore.isAdmin) {
+        router.push('/admin/dashboard');
+      } else {
+        router.push('/dashboard');
+      }
     }
   } catch (error: any) {
     if (error.response?.data?.errors && error.response.data.errors.length > 0) {

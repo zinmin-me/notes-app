@@ -4,7 +4,10 @@ import { useAuthStore } from '../stores/authStore';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/dashboard',
+    redirect: () => {
+      const authStore = useAuthStore();
+      return authStore.isAdmin ? '/admin/dashboard' : '/dashboard';
+    }
   },
   {
     path: '/login',
@@ -69,7 +72,7 @@ router.beforeEach((to, _from, next) => {
   } else if (requiresAdmin && !authStore.isAdmin) {
     next({ name: 'Dashboard' });
   } else if (guestOnly && isAuthenticated) {
-    next({ name: 'Dashboard' });
+    next({ name: authStore.isAdmin ? 'AdminDashboard' : 'Dashboard' });
   } else {
     next();
   }
