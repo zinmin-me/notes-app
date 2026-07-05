@@ -28,9 +28,11 @@ builder.Services.AddCorsPolicies(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-// Always enable Swagger for demo purposes
-app.UseSwagger();
-app.UseSwaggerUI();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseMiddleware<RequestLoggingMiddleware>();
