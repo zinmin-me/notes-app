@@ -8,7 +8,7 @@
   >
     <div class="relative flex-1 flex flex-col min-h-0 bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border-r border-slate-200/50 dark:border-slate-700/40">
       <div class="flex-1 flex flex-col pt-6 pb-4 overflow-y-auto">
-        <div class="flex-1 px-4 space-y-1">
+        <div class="px-4 space-y-1">
           <p class="px-3 mb-4 text-[11px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">Navigation</p>
           <ul class="space-y-1">
             <li>
@@ -38,7 +38,7 @@
           </ul>
         </div>
         
-        <div v-if="authStore.isAdmin" class="flex-1 px-4 space-y-1 mt-8">
+        <div v-if="authStore.isAdmin" class="px-4 space-y-1 mt-8">
           <p class="px-3 mb-4 text-[11px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">Admin Panel</p>
           <ul class="space-y-1">
             <li>
