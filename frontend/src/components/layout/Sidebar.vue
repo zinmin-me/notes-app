@@ -36,6 +36,8 @@
               </router-link>
             </li>
           </ul>
+        </div>
+        
         <div v-if="authStore.isAdmin" class="flex-1 px-4 space-y-1 mt-8">
           <p class="px-3 mb-4 text-[11px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">Admin Panel</p>
           <ul class="space-y-1">
