@@ -26,7 +26,7 @@
 
           <!-- Actions -->
           <div class="px-6 pb-6 flex gap-3">
-            <button @click="cancel" class="btn-secondary flex-1 !py-2.5">
+            <button v-if="!hideCancel" @click="cancel" class="btn-secondary flex-1 !py-2.5">
               {{ cancelText }}
             </button>
             <button @click="confirm" class="flex-1 !py-2.5" :class="confirmBtnClass">
@@ -67,6 +67,10 @@ const props = defineProps({
   variant: {
     type: String as () => 'danger' | 'info',
     default: 'danger'
+  },
+  hideCancel: {
+    type: Boolean,
+    default: false
   }
 });
 

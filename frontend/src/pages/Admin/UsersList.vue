@@ -74,6 +74,18 @@
       @confirm="confirmRoleChange"
       @cancel="cancelRoleChange"
     />
+
+    <!-- Alert Modal -->
+    <ConfirmModal 
+      :show="showAlertModal"
+      :title="alertTitle"
+      :message="alertMessage"
+      confirm-text="Close"
+      :hideCancel="true"
+      variant="danger"
+      @confirm="showAlertModal = false"
+      @cancel="showAlertModal = false"
+    />
   </div>
 </template>
 
@@ -90,9 +102,18 @@ const authStore = useAuthStore();
 const isUpdating = ref<string | null>(null);
 
 const showConfirmModal = ref(false);
+const showAlertModal = ref(false);
+const alertMessage = ref('');
+const alertTitle = ref('Error');
 const pendingUser = ref<any>(null);
 const pendingRole = ref<string>('');
 let selectEventTarget: HTMLSelectElement | null = null;
+
+const showAlert = (title: string, message: string) => {
+  alertTitle.value = title;
+  alertMessage.value = message;
+  showAlertModal.value = true;
+};
 
 onMounted(() => {
   adminStore.fetchUsers();
@@ -109,7 +130,7 @@ const handleRoleChange = async (user: any, event: Event) => {
   
   // Prevent changing own role
   if (user.id === authStore.user?.id) {
-    alert("You cannot change your own role.");
+    showAlert("Action Denied", "You cannot change your own role.");
     select.value = user.role; // reset
     return;
   }
@@ -130,7 +151,7 @@ const confirmRoleChange = async () => {
   try {
     await adminStore.updateUserRole(pendingUser.value.id, pendingRole.value);
   } catch (error: any) {
-    alert(error.response?.data?.message || 'Failed to update role');
+    showAlert("Update Failed", error.response?.data?.message || 'Failed to update role');
     if (selectEventTarget) {
       selectEventTarget.value = pendingUser.value.role; // reset on error
     }
