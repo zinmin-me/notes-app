@@ -129,6 +129,22 @@ _Note: The optional seed script creates an Admin (`admin@notesapp.com`) and User
 
 ---
 
+## 🔑 Demo / Test Accounts
+
+If you have executed the `003_SeedData.sql` script (or if you are testing the live deployed version), you can use the following credentials:
+
+### Admin Account
+- **Email:** `admin@notesapp.com`
+- **Password:** `Password@123`
+- *Note: Log in with this account to access the Admin Dashboard and User Management features.*
+
+### User Account
+- **Email:** `john@notesapp.com`
+- **Password:** `Password@123`
+- *Alternatively, you can just click **"Create an account"** on the login page to register a new regular user account and start using the app.*
+
+---
+
 ## 📖 API Documentation (Swagger)
 
 Swagger UI is available out-of-the-box.
