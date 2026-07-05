@@ -44,10 +44,15 @@
                 {{ user.email }}
               </td>
               <td class="px-6 py-4">
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-                      :class="user.role === 'Admin' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300' : 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300'">
-                  {{ user.role }}
-                </span>
+                <select 
+                  :value="user.role" 
+                  @change="handleRoleChange(user, $event)"
+                  class="bg-slate-50 border border-slate-300 text-slate-900 text-xs rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-1.5 dark:bg-slate-700 dark:border-slate-600 dark:placeholder-slate-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  :disabled="isUpdating === user.id"
+                >
+                  <option value="User">User</option>
+                  <option value="Admin">Admin</option>
+                </select>
               </td>
               <td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">
                 {{ formatDate(user.createdAt) }}
@@ -61,12 +66,15 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useAdminStore } from '../../stores/adminStore';
+import { useAuthStore } from '../../stores/authStore';
 import LoadingSpinner from '../../components/common/LoadingSpinner.vue';
 import { format } from 'date-fns';
 
 const adminStore = useAdminStore();
+const authStore = useAuthStore();
+const isUpdating = ref<string | null>(null);
 
 onMounted(() => {
   adminStore.fetchUsers();
@@ -75,5 +83,33 @@ onMounted(() => {
 const formatDate = (dateString: string) => {
   if (!dateString) return '';
   return format(new Date(dateString), 'MMM d, yyyy');
+};
+
+const handleRoleChange = async (user: any, event: Event) => {
+  const select = event.target as HTMLSelectElement;
+  const newRole = select.value;
+  
+  // Prevent changing own role
+  if (user.id === authStore.user?.id) {
+    alert("You cannot change your own role.");
+    select.value = user.role; // reset
+    return;
+  }
+
+  const confirmed = confirm(`Are you sure you want to change ${user.username}'s role to ${newRole}?`);
+  if (!confirmed) {
+    select.value = user.role; // reset
+    return;
+  }
+
+  isUpdating.value = user.id;
+  try {
+    await adminStore.updateUserRole(user.id, newRole);
+  } catch (error: any) {
+    alert(error.response?.data?.message || 'Failed to update role');
+    select.value = user.role; // reset
+  } finally {
+    isUpdating.value = null;
+  }
 };
 </script>

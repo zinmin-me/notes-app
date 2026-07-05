@@ -44,4 +44,16 @@ public class AdminService : IAdminService
             NotesCreatedToday = notesCreatedToday
         };
     }
+
+    public async Task<bool> UpdateUserRoleAsync(Guid id, string role, CancellationToken cancellationToken = default)
+    {
+        // Add additional validation if needed (e.g. check if the role is valid, or if the user exists).
+        // The simplest implementation just passes it down.
+        if (role != "User" && role != "Admin")
+        {
+            return false;
+        }
+        
+        return await _userRepository.UpdateRoleAsync(id, role, cancellationToken);
+    }
 }

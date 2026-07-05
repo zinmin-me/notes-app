@@ -10,4 +10,5 @@ public interface IAdminService
 {
     Task<IEnumerable<UserProfileResponse>> GetAllUsersAsync(CancellationToken cancellationToken = default);
     Task<AdminDashboardStatsDto> GetDashboardStatsAsync(CancellationToken cancellationToken = default);
+    Task<bool> UpdateUserRoleAsync(Guid id, string role, CancellationToken cancellationToken = default);
 }

@@ -52,6 +52,19 @@ export const useAdminStore = defineStore('admin', {
       } finally {
         this.loading = false;
       }
+    },
+    async updateUserRole(userId: string, newRole: string) {
+      try {
+        await api.put(`/admin/users/${userId}/role`, { role: newRole });
+        // Update local state
+        const user = this.users.find(u => u.id === userId);
+        if (user) {
+          user.role = newRole;
+        }
+      } catch (error) {
+        console.error('Failed to update user role', error);
+        throw error;
+      }
     }
   }
 });

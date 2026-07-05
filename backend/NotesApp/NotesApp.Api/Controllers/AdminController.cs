@@ -46,4 +46,36 @@ public class AdminController : BaseApiController
         var stats = await _adminService.GetDashboardStatsAsync(cancellationToken);
         return Ok(stats);
     }
+
+    /// <summary>
+    /// Updates a user's role.
+    /// </summary>
+    /// <param name="id">The ID of the user.</param>
+    /// <param name="dto">The role update details.</param>
+    /// <returns>No content if successful.</returns>
+    [HttpPut("users/{id:guid}/role")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateUserRole(Guid id, [FromBody] UpdateRoleDto dto, CancellationToken cancellationToken)
+    {
+        // Optional: Prevent admins from changing their own role to avoid getting locked out.
+        var currentUserIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+        if (currentUserIdClaim != null && Guid.TryParse(currentUserIdClaim.Value, out var currentUserId))
+        {
+            if (id == currentUserId)
+            {
+                return BadRequest(new { Message = "You cannot change your own role." });
+            }
+        }
+
+        var result = await _adminService.UpdateUserRoleAsync(id, dto.Role, cancellationToken);
+        
+        if (!result)
+        {
+            return BadRequest(new { Message = "Failed to update role. Ensure the role is valid and the user exists." });
+        }
+
+        return NoContent();
+    }
 }

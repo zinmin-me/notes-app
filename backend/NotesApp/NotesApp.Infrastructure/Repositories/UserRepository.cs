@@ -112,9 +112,16 @@ public class UserRepository : IUserRepository
         const string sql = "SELECT COUNT(1) FROM Users WHERE Username = @Username";
 
         using var connection = _context.CreateConnection();
-        var count = await connection.ExecuteScalarAsync<int>(
-            new CommandDefinition(sql, new { Username = username }, cancellationToken: cancellationToken));
+        return await connection.ExecuteScalarAsync<int>(new CommandDefinition(sql, new { Username = username }, cancellationToken: cancellationToken)) > 0;
+    }
 
-        return count > 0;
+    /// <inheritdoc />
+    public async Task<bool> UpdateRoleAsync(Guid id, string role, CancellationToken cancellationToken = default)
+    {
+        const string sql = "UPDATE Users SET Role = @Role WHERE Id = @Id";
+
+        using var connection = _context.CreateConnection();
+        var rowsAffected = await connection.ExecuteAsync(new CommandDefinition(sql, new { Id = id, Role = role }, cancellationToken: cancellationToken));
+        return rowsAffected > 0;
     }
 }

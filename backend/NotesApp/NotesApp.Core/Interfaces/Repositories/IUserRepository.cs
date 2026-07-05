@@ -16,4 +16,5 @@ public interface IUserRepository
     Task<int> GetCountJoinedTodayAsync(CancellationToken cancellationToken = default);
     Task<bool> EmailExistsAsync(string email, CancellationToken cancellationToken = default);
     Task<bool> UsernameExistsAsync(string username, CancellationToken cancellationToken = default);
+    Task<bool> UpdateRoleAsync(Guid id, string role, CancellationToken cancellationToken = default);
 }
