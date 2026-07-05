@@ -73,7 +73,11 @@ notes-app/
 
 1. Make sure Docker Desktop is running.
 2. Open a terminal in the root folder of the project (`notes-app`).
-3. Run the following command:
+3. Copy `.env.example` to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+4. Run the following command:
    ```bash
    docker compose up -d --build
    ```
@@ -99,17 +103,21 @@ _Note: The optional seed script creates an Admin (`admin@notesapp.com`) and User
 
 #### 2. Backend Setup
 
-1. Navigate to the API folder:
+1. Copy `.env.example` to `.env` in the root folder:
+   ```bash
+   cp .env.example .env
+   ```
+2. Navigate to the API folder:
    ```bash
    cd backend/NotesApp/NotesApp.Api
    ```
-2. Update the `DefaultConnection` string in `appsettings.json` if necessary (defaults to localhost).
-3. Run the API:
+3. Update the `DefaultConnection` string in the `.env` file if necessary (defaults to localhost).
+4. Run the API:
    ```bash
    dotnet run
    ```
-4. The API will start on `http://localhost:5000` (or `https://localhost:5001`).
-5. Open `http://localhost:5000/swagger` to view the API documentation.
+5. The API will start on `http://localhost:5000` (or `https://localhost:5001`).
+6. Open `http://localhost:5000/swagger` to view the API documentation.
 
 #### 3. Frontend Setup
 

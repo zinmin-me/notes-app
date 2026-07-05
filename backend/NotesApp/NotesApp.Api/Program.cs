@@ -2,6 +2,9 @@ using NotesApp.Api.Extensions;
 using NotesApp.Api.Middleware;
 using Serilog;
 
+// Load environment variables from .env file (if present)
+DotNetEnv.Env.TraversePath().Load();
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure Serilog
